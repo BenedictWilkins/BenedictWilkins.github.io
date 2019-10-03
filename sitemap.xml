@@ -9,14 +9,31 @@
   
   <url>
     <loc>https://benedictwilkinsai.github.io/</loc>
+    <lastmod>2019-10-02T18:54:36+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://benedictwilkinsai.github.io/categories/</loc>
+    <loc>https://benedictwilkinsai.github.io/tags/mini-projects/</loc>
+    <lastmod>2019-10-02T18:54:36+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://benedictwilkinsai.github.io/post/</loc>
+    <lastmod>2019-10-02T18:54:36+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://benedictwilkinsai.github.io/post/mini-projects/sandpile/</loc>
+    <lastmod>2019-10-02T18:54:36+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://benedictwilkinsai.github.io/tags/</loc>
+    <lastmod>2019-10-02T18:54:36+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://benedictwilkinsai.github.io/categories/</loc>
   </url>
   
 </urlset>
