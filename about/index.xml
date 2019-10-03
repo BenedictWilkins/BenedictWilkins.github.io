@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>About on Benedict Wilkins AI</title>
-    <link>http://example.org/about/</link>
+    <link>https://benedictwilkinsai.github.io/about/</link>
     <description>Recent content in About on Benedict Wilkins AI</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 03 Oct 2019 15:51:39 +0100</lastBuildDate>
     
-	<atom:link href="http://example.org/about/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://benedictwilkinsai.github.io/about/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>
