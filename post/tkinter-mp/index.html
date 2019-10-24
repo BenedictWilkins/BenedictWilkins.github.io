@@ -213,7 +213,7 @@ root.mainloop()
     root.after(0, lambda : canvas.create_rectangle(x,0,x+200,200, fill='red'))
 </code></pre>
 
-<p>closing the window at the hinted time will cause the exception to be raised, this is because we are asking <code>tkinter</code> to execute a command after <code>root</code> has already been destroyed (this happens during <code>time.sleep(1)</code>), the full code to test this available below. To prevent exception we should create another method <code>after</code> as a proxy for <code>root.after</code> that checks the <code>finish</code> flag.</p>
+<p>closing the window at the hinted time will cause the exception to be raised, this is because we are asking <code>tkinter</code> to execute a command after <code>root</code> has already been destroyed (this happens during <code>time.sleep(1)</code>), the full code to test this available below. To prevent the exception we should create another method <code>after</code> as a proxy for <code>root.after</code> that checks the <code>finish</code> flag.</p>
 
 <pre><code>def after(t, fun, *args):
     global finish
