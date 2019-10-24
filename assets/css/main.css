@@ -178,6 +178,8 @@ input, select, textarea {
 	p {
 		text-align: justify;
 		margin: 0 0 2rem 0;
+		line-height: 1.8
+
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -247,8 +249,8 @@ input, select, textarea {
 		border: solid 2px;
 		font-family: "Courier New", monospace;
 		font-size: 0.9rem;
-		margin: 0 0.25rem;
-		padding: 0.25rem 0.65rem;
+		margin: 0 0.1rem;
+		padding: 0.05rem 0.05rem;
 	}
 
 	pre {
@@ -3359,7 +3361,7 @@ input, select, textarea {
 				}
 
 		#intro h1 {
-			font-size: 5rem;
+			font-size: 4rem;
 			line-height: 1;
 		}
 
@@ -3760,7 +3762,7 @@ input, select, textarea {
 			}
 
 			#main > .post header.major > h1, #main > .post header.major h2 {
-				font-size: 4rem;
+				font-size: 3rem;
 				line-height: 1.1;
 				margin: 0 0 2rem 0;
 			}
