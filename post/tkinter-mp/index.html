@@ -125,7 +125,7 @@ root.protocol(&quot;WM_DELETE_WINDOW&quot;, root.destroy)
 root.mainloop() 
 </code></pre>
 
-<p><code>root.mainloop()</code> will block the main thread until <code>root</code> is destroyed (the window is closed). Uf we want to do more computation while the GUI is running, we need to create another thread. This is where python <code>threading</code> comes in handy.</p>
+<p><code>root.mainloop()</code> will block the main thread until <code>root</code> is destroyed (the window is closed). If we want to do more computation while the GUI is running, we need to create another thread. This is where python <code>threading</code> comes in handy.</p>
 
 <pre><code>from threading import Thread
 
