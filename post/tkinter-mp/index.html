@@ -2,12 +2,26 @@
 
 <html lang='en'>
 	<head>
-		<title>Tutorial: Multi-threading and tkinter &middot; Benedict Wilkins AI</title>
+		<title>Tutorial: Multi-threading and tkinter &middot; Benedict Wilkins</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		
+		<!-- plugins -->
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/bootstrap/bootstrap.min.css">
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/Ionicons/css/ionicons.min.css">
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/magnific-popup/magnific-popup.css">
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/slick/slick.css">
+		
+
 		<link rel="stylesheet" href='/assets/css/main.css' />
 		
+		
 		<noscript><link rel="stylesheet" href='/assets/css/noscript.css' /></noscript>
+		
 	</head>
 
 <script type="text/javascript" async
@@ -45,7 +59,7 @@
 
                 
 <header id="header">
-    <a href='/' class="logo">Benedict Wilkins AI</a>
+    <a href='/' class="logo">Benedict Wilkins</a>
 </header>
 
                 
@@ -112,21 +126,15 @@
                             </header>
                             
                             <p>On occasion in my work I need a visualisation that gives a bit more than what <code>pyplot</code> can provide. <code>tkinter</code> was an obvious choice as a fairly powerful pure python GUI library it has (almost) everything one might need for simple interactive interfaces. As always, and with little to no understanding of the library I jumped straight in and tried to develop a super complicated GUI for a project I have been working on called vacuumworld.</p>
-
 <p>In this post we will discuss using <code>tkinter</code> when used with the python <code>threading</code> module. <code>tkinter</code> and <code>threading</code> do not get along very well so there are some special things that we need to do make things work properly. Lets begin.</p>
-
 <p>The following code will initialise <code>tkinter</code> and open a window, all of your <code>tkinter</code> programs will contain this code so keep it in mind.</p>
-
 <pre><code>import tkinter as tk
 
 root = tk.Tk()
 root.title(&quot;My Title&quot;)
 root.protocol(&quot;WM_DELETE_WINDOW&quot;, root.destroy)
 root.mainloop() 
-</code></pre>
-
-<p><code>root.mainloop()</code> will block the main thread until <code>root</code> is destroyed (the window is closed). If we want to do more computation while the GUI is running, we need to create another thread. This is where python <code>threading</code> comes in handy.</p>
-
+</code></pre><p><code>root.mainloop()</code> will block the main thread until <code>root</code> is destroyed (the window is closed). If we want to do more computation while the GUI is running, we need to create another thread. This is where python <code>threading</code> comes in handy.</p>
 <pre><code>from threading import Thread
 
 def run():
@@ -136,23 +144,13 @@ control_thread = Thread(target=run, daemon=True)
 control_thread.start()
 # ... 
 root.mainloop()      
-</code></pre>
-
-<p>Often we want to periodically update the GUI based on a model that is changing. We can accomplish this using the <code>root.after</code> method. Lets first add something to update in to the window:</p>
-
+</code></pre><p>Often we want to periodically update the GUI based on a model that is changing. We can accomplish this using the <code>root.after</code> method. Lets first add something to update in to the window:</p>
 <pre><code>canvas = tk.Canvas(root, width=640, height=480, bd=0, highlightthickness=0, bg='white')
-</code></pre>
-
-<p>we can drawing items (lines, shapes, text, etc) to canvas widget, lets update it canvas in <code>run</code>:</p>
-
+</code></pre><p>we can drawing items (lines, shapes, text, etc) to canvas widget, lets update it canvas in <code>run</code>:</p>
 <pre><code>def run():
     root.after(1000, lambda : canvas.create_rectangle(0,0,200,200, fill='red'))
-</code></pre>
-
-<p>This will draw a red rectangle to the canvas after 1 second. We use a <code>lambda</code> here to avoid having to pass additional arguments to <code>after</code>, alternatively this can be done simply as <code>root.after(time, fun, *args)</code>. The <code>after</code> method <em>must</em> be used for inter-thread communication between <code>tkinter</code> and any thread you create.</p>
-
+</code></pre><p>This will draw a red rectangle to the canvas after 1 second. We use a <code>lambda</code> here to avoid having to pass additional arguments to <code>after</code>, alternatively this can be done simply as <code>root.after(time, fun, *args)</code>. The <code>after</code> method <em>must</em> be used for inter-thread communication between <code>tkinter</code> and any thread you create.</p>
 <p>To periodically update the GUI we can make use of the following <code>Sleep</code> class for convenience:</p>
-
 <pre><code>import time
 
 class Sleep:
@@ -170,10 +168,7 @@ class Sleep:
 
     def __t(self):
         return int(round(time.time() * 1000))
-</code></pre>
-
-<p>this allows us to use the <code>with</code> statement in python, if you are not familiar with <code>with</code> take a look at <a href="https://www.geeksforgeeks.org/with-statement-in-python/">this</a>. Next, the run method:</p>
-
+</code></pre><p>this allows us to use the <code>with</code> statement in python, if you are not familiar with <code>with</code> take a look at <a href="https://www.geeksforgeeks.org/with-statement-in-python/">this</a>. Next, the run method:</p>
 <pre><code>def run():
     x = 0
     while True:
@@ -181,10 +176,7 @@ class Sleep:
             root.after(0, lambda : canvas.delete('all'))
             root.after(0, lambda : canvas.create_rectangle(x,0,x+200,200, fill='red'))
         x += 10
-</code></pre>
-
-<p><code>run</code> will move a red rectangle across the canvas widget at 100 ms intervals. The preferred way to do this is by storing the created rectangle and moving it using <code>canvas.move(rect, x, y)</code> but we are being lazy. To terminate <code>run()</code> we typically include a boolean flag that is set when the root window is closed.</p>
-
+</code></pre><p><code>run</code> will move a red rectangle across the canvas widget at 100 ms intervals. The preferred way to do this is by storing the created rectangle and moving it using <code>canvas.move(rect, x, y)</code> but we are being lazy. To terminate <code>run()</code> we typically include a boolean flag that is set when the root window is closed.</p>
 <pre><code>def quit():
     global finish
     finish = True
@@ -202,31 +194,20 @@ global finish
 finish = False
 # ... start control thread
 root.mainloop()
-</code></pre>
-
-<p>Creating a <code>quit</code> method and the <code>finish</code> flag lets us properly close the control thread and exit the program. There is a small caveat here which can be confusing if you have not encountered it before - we have created a race condition. It is possible that the root window is closed (destroyed) before a call to <code>after</code> in the <code>run</code> loop. In this case <code>tkinter</code> will raise an exception. We can demonstrate this with the following code in <code>run</code>,</p>
-
+</code></pre><p>Creating a <code>quit</code> method and the <code>finish</code> flag lets us properly close the control thread and exit the program. There is a small caveat here which can be confusing if you have not encountered it before - we have created a race condition. It is possible that the root window is closed (destroyed) before a call to <code>after</code> in the <code>run</code> loop. In this case <code>tkinter</code> will raise an exception. We can demonstrate this with the following code in <code>run</code>,</p>
 <pre><code>while not finish:
     root.after(0, lambda : canvas.delete('all'))
     print(&quot;CLOSE ME NOW!&quot;)
     time.sleep(1)
     root.after(0, lambda : canvas.create_rectangle(x,0,x+200,200, fill='red'))
-</code></pre>
-
-<p>closing the window at the hinted time will cause the exception to be raised, this is because we are asking <code>tkinter</code> to execute a command after <code>root</code> has already been destroyed (this happens during <code>time.sleep(1)</code>), the full code to test this available below. To prevent the exception we should create another method <code>after</code> as a proxy for <code>root.after</code> that checks the <code>finish</code> flag.</p>
-
+</code></pre><p>closing the window at the hinted time will cause the exception to be raised, this is because we are asking <code>tkinter</code> to execute a command after <code>root</code> has already been destroyed (this happens during <code>time.sleep(1)</code>), the full code to test this available below. To prevent the exception we should create another method <code>after</code> as a proxy for <code>root.after</code> that checks the <code>finish</code> flag.</p>
 <pre><code>def after(t, fun, *args):
     global finish
     if not finish:
         root.after(t, fun, *args)
-</code></pre>
-
-<p>we then replace our calls to <code>root.after</code> with calls to our new <code>after</code> method, and with that we are done.</p>
-
+</code></pre><p>we then replace our calls to <code>root.after</code> with calls to our new <code>after</code> method, and with that we are done.</p>
 <p>The most important thing to take away is the use of <code>root.after</code>. Without this you may encounter strange (very difficult to debug) errors with updating the GUI - e.g. items been drawn in the wrong order. To get you going I have created some boiler plate code that you are free to use in your projects to get things up and running quickly (see full code below).</p>
-
 <p>The full code is available:</p>
-
 <ul>
 <li><a href="https://gist.github.com/BenedictWilkinsAI/d784c6d684041723d7170f7a484d1fb9">Full Example</a></li>
 <li><a href="https://gist.github.com/BenedictWilkinsAI/b84eddb9f7a74ececfe867c8e610a451">Full Example Error</a></li>
@@ -283,7 +264,7 @@ root.mainloop()
 
                     
 <div id="copyright">
-    <ul><li>&copy; Benedict Wilkins AI</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li><li>Hugo Port: <a href="https://curtistimson.co.uk">curttimson</a></li></ul>
+    <ul><li>&copy; Benedict Wilkins</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li><li>Hugo Port: <a href="https://curtistimson.co.uk">curttimson</a></li></ul>
 </div>
 
 

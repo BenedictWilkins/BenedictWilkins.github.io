@@ -1,24 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Benedict Wilkins AI</title>
+    <title>Benedict Wilkins</title>
     <link>https://benedictwilkinsai.github.io/</link>
-    <description>Recent content on Benedict Wilkins AI</description>
+    <description>Recent content on Benedict Wilkins</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 29 Feb 2020 19:11:49 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Oct 2019 18:08:01 +0100</lastBuildDate>
     
 	<atom:link href="https://benedictwilkinsai.github.io/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Test</title>
-      <link>https://benedictwilkinsai.github.io/ipython/test/</link>
-      <pubDate>Sat, 29 Feb 2020 19:11:49 +0000</pubDate>
-      
-      <guid>https://benedictwilkinsai.github.io/ipython/test/</guid>
-      <description>// output functions are configurable. This one just appends some text // to a pre element. function outf(text) { var mypre = document.getElementById(&#34;output&#34;); mypre.innerHTML = mypre.innerHTML + text; } function builtinRead(x) { if (Sk.builtinFiles === undefined || Sk.builtinFiles[&#34;files&#34;][x] === undefined) throw &#34;File not found: &#39;&#34; + x + &#34;&#39;&#34;; return Sk.builtinFiles[&#34;files&#34;][x]; } // Here&#39;s everything you need to run a python program in skulpt // grab the code from your textarea // get a reference to your pre element for output // configure the output function // call Sk.</description>
-    </item>
     
     <item>
       <title>Tutorial: Multi-threading and tkinter</title>
@@ -27,15 +18,6 @@
       
       <guid>https://benedictwilkinsai.github.io/post/tkinter-mp/</guid>
       <description>On occasion in my work I need a visualisation that gives a bit more than what pyplot can provide. tkinter was an obvious choice as a fairly powerful pure python GUI library it has (almost) everything one might need for simple interactive interfaces. As always, and with little to no understanding of the library I jumped straight in and tried to develop a super complicated GUI for a project I have been working on called vacuumworld.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://benedictwilkinsai.github.io/ipython/test/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://benedictwilkinsai.github.io/ipython/test/</guid>
-      <description>// output functions are configurable. This one just appends some text // to a pre element. function outf(text) { var mypre = document.getElementById(&#34;output&#34;); mypre.innerHTML = mypre.innerHTML + text; } function builtinRead(x) { if (Sk.builtinFiles === undefined || Sk.builtinFiles[&#34;files&#34;][x] === undefined) throw &#34;File not found: &#39;&#34; + x + &#34;&#39;&#34;; return Sk.builtinFiles[&#34;files&#34;][x]; } // Here&#39;s everything you need to run a python program in skulpt // grab the code from your textarea // get a reference to your pre element for output // configure the output function // call Sk.</description>
     </item>
     
   </channel>
