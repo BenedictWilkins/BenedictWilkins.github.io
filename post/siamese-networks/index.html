@@ -206,7 +206,7 @@ def conv_output_shape(h_w, kernel_size=1, stride=1, pad=0, dilation=1):
     w = floor( ((h_w[1] + (2 * pad) - ( dilation * (kernel_size[1] - 1) ) - 1 )/ stride) + 1)
     return h, w
 </code></pre><p>We have defined a simple network with 3 convolutional layers and a single fully connected output layer in <code>CNet2</code>. The next step is to start thinking about how to implement the triplet loss.</p>
-<p>First we need to implement $||\cdot||$, the distance between different data points. As we will be using stochastic gradient descent to optimise our model, we will be computing distances over batches. For each batch we compute a distance matrix over the batch both positive and negative examples. The following code computes a distance the squared $L_2$ distance matrix.</p>
+<p>First we need to implement $||\cdot||$, the distance between different data points. As we will be using stochastic gradient descent to optimise our model, we will be computing distances over batches. For each batch we compute a distance matrix for both positive and negative examples. The following code computes the squared $L_2$ distance matrix.</p>
 <pre><code>def distance_matrix(x1, x2=None):
     if x2 is None:
         x2 = x1
@@ -237,7 +237,7 @@ def conv_output_shape(h_w, kernel_size=1, stride=1, pad=0, dilation=1):
         loss += xf.sum()
 
     return loss
-</code></pre><p>In the above, we loop through each of the digits, compute the relevant distances, then the triplet objective and finally aggregate (sum) the losses for each digit.</p>
+</code></pre><p>In the above, we loop through each of the digits, compute the relevant distances, then the triplet objective and finally aggregate (sum) the losses for each digit. We use the each positive example as an anchor example, after finishing the loop all of the examples will have been used as an anchor.</p>
 <p>Now we define our model, optimiser and some hyper parameters.</p>
 <pre><code>input_dim = (1, 28, 28)
 batch_size = 100
