@@ -2,7 +2,7 @@
 
 <html lang='en'>
 	<head>
-		<title>Posts &middot; Benedict Wilkins</title>
+		<title> &middot; Benedict Wilkins</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		
@@ -24,20 +24,45 @@
 		
 	</head>
 
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
 	<body lang='en' class="is-preload">
 
 		
-		
+			<div id="wrapper">
 
-		
-			<div id="wrapper" class="fade-in">
-
-				
+                
 <header id="header">
     <a href='/' class="logo">Benedict Wilkins</a>
 </header>
 
-				
+                
 
 
 <nav id="nav">
@@ -89,81 +114,27 @@
 
 				
 					<div id="main">
-						
-						
-
-<section class="posts">
-    
-    <article>
-        <header>
-            
-            <span class="date">September 26, 2020</span>
-            
-            <h2><a href="https://benedictwilkinsai.github.io/post/siamese-networks/">Siamese Networks</a></h2>
-        </header>
-        
-        <p>Implementing Siamese Networks and Triplet Loss in Pytorch</p>
-        <ul class="actions">
-            <li><a href="https://benedictwilkinsai.github.io/post/siamese-networks/" class="button">Full Post</a></li>
-        </ul>
-    </article>
-    
-    <article>
-        <header>
-            
-            <span class="date">October 3, 2019</span>
-            
-            <h2><a href="https://benedictwilkinsai.github.io/post/tkinter-mp/">Tutorial: Multi-threading and tkinter</a></h2>
-        </header>
-        
-        <p>Python threading with tkinter</p>
-        <ul class="actions">
-            <li><a href="https://benedictwilkinsai.github.io/post/tkinter-mp/" class="button">Full Post</a></li>
-        </ul>
-    </article>
-    
-    <article>
-        <header>
-            
-            <h2><a href="https://benedictwilkinsai.github.io/post/jupyter-cellfolding/"></a></h2>
-        </header>
-        
-        <p></p>
-        <ul class="actions">
-            <li><a href="https://benedictwilkinsai.github.io/post/jupyter-cellfolding/" class="button">Full Post</a></li>
-        </ul>
-    </article>
-    
-</section>
-
 
 						
-						
-						
+                        <section class="post">
+                            <header class="major">
+                                
+                                <h1></h1>
+                                <p></p>
+                            </header>
+                            
+                            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            
+                            
+                            
+                            
+                            
+                        </section>
 
 					</div>
 
-					
+                    
 
 <footer id="footer">
     
@@ -203,15 +174,15 @@
     </section>
 </footer>
 
-					
+                    
 <div id="copyright">
     <ul><li>&copy; Benedict Wilkins</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li><li>Hugo Port: <a href="https://curtistimson.co.uk">curttimson</a></li></ul>
 </div>
 
-			</div>
 
-			
-			
+            </div>
+            
+            
 <script src='/assets/js/jquery.min.js'></script>
 <script src='/assets/js/jquery.scrollex.min.js'></script>
 <script src='/assets/js/jquery.scrolly.min.js'></script>
@@ -219,7 +190,6 @@
 <script src='/assets/js/breakpoints.min.js'></script>
 <script src='/assets/js/util.js'></script>
 <script src='/assets/js/main.js'></script>
-
 
 	</body>
 </html>
