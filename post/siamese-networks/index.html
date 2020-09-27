@@ -127,7 +127,7 @@
                             
                             <p>Recently I have been looking into Siamese networks in my research, for my own understanding I like to implement new models that I come across - if you can code it you must understand it! Lets begin.</p>
 <h2 id="what-is-a-siamese-network">What is a Siamese Network?</h2>
-<p>There are some great resources on the web that answer this question, in particular this <a href="https://www.youtube.com/watch?v=6jfw8MuKwpI">short course</a> by distinguished research Andrew Ng. For completeness I will explain the idea briefly here.</p>
+<p>There are some great resources on the web that answer this question, in particular this <a href="https://www.youtube.com/watch?v=6jfw8MuKwpI">short course</a> by distinguished researcher Andrew Ng. For completeness I will explain the idea briefly here.</p>
 <p>Siamese networks learn a distance measure between pairs of labelled examples. They work as follows, examples are fed into the network and the network creates an encoding (simply the output of the network) for each example. As usual the encodings are used in an objective function. The distinguishing feature of Siamese networks as compared with the usual neural network set up is that the objective function uses multiple examples for a single loss computation. In this post we will focus on the <strong>triplet loss</strong> function. The objective is to learn a distance measure that keeps examples with the same label close together in the encoding space, while at the same time keeping examples with different labels far from each other. To accomplish this triplet loss uses three examples &ndash; anchor, positive and negative. The anchor and positive examples share the same label, anchor and negative have different labels. Triplet loss is defined as follows:</p>
 <p>$$\mathcal{L}(A,P,N) = max(|| f(A) - f(P) || - || f(A) - f(N) || + \alpha, 0)$$</p>
 <p>where $A,P,N$ are the anchor, positive and negative examples respectively, $\alpha$ is a constant value that prevents the network from learning trivial solutions and $||\cdot||$ is a norm (e.g. $L_2$). Triplet loss is explained in much more detail in Andrew Ng&rsquo;s <a href="https://www.youtube.com/watch?v=d2XB5-tuCWU">course</a>.</p>
@@ -152,7 +152,7 @@ def mnist():
 </code></pre><p>We add a new axis to <code>train_x</code> and <code>test_x</code> to ensure the data follows the PyTorch image format convention $(N,C,H,W)$.</p>
 <hr>
 <h2 id="code">Code</h2>
-<p>I am going to race through creating our neural network in Pytorch. There are many explainations avaliable online for the following code, and I will be releasing a post soon that goes throught it in detail.</p>
+<p>I am going to race through creating our neural network in Pytorch. There are many explanations available online for the following code, and I will be releasing a post soon that goes through it in detail.</p>
 <pre><code>import numpy as np
 import torch
 import torch.nn as nn
@@ -206,14 +206,14 @@ def conv_output_shape(h_w, kernel_size=1, stride=1, pad=0, dilation=1):
     w = floor( ((h_w[1] + (2 * pad) - ( dilation * (kernel_size[1] - 1) ) - 1 )/ stride) + 1)
     return h, w
 </code></pre><p>We have defined a simple network with 3 convolutional layers and a single fully connected output layer in <code>CNet2</code>. The next step is to start thinking about how to implement the triplet loss.</p>
-<p>First we need to implement $||\cdot||$, the distance between different data points. As we will be using stochastic gradient descent to optimise our model, we will be computing distances over batches. For each batch we will compute a distance matrix over the batch and then seperating positive and negative examples. The following code computes a distance the squared $L_2$ distance matrix.</p>
+<p>First we need to implement $||\cdot||$, the distance between different data points. As we will be using stochastic gradient descent to optimise our model, we will be computing distances over batches. For each batch we compute a distance matrix over the batch and then separate positive and negative examples. The following code computes a distance the squared $L_2$ distance matrix.</p>
 <pre><code>def distance_matrix(x1, x2=None):
     if x2 is None:
         x2 = x1
     n_dif = x1.unsqueeze(1) - x2.unsqueeze(0)
     return torch.sum(n_dif * n_dif, -1)
 </code></pre><p>This function is pretty memory in-efficient, but for our purposes its OK.</p>
-<p>Now for the loss computation, we will be using the labels that MNIST has (0-9) to determin $N$ and $P$. For each label $i$, our positive images $P$ are those labelled $i$ and our negative are any image not labelled $i$.</p>
+<p>Now for the loss computation, we will be using the labels that MNIST has (0-9) to determine $N$ and $P$. For each label $i$, our positive images $P$ are those labelled $i$ and our negative are any image not labelled $i$.</p>
 <pre><code>def loss(model, x, y, margin=0.2):
     x_ = model(x)
     unique = np.unique(y)
@@ -237,7 +237,7 @@ def conv_output_shape(h_w, kernel_size=1, stride=1, pad=0, dilation=1):
         loss += xf.sum()
 
     return loss
-</code></pre><p>In the above, we loop though each of the digits, compute the relevant distances, then the triplet objective and finally aggregate (sum) the losses for each digit.</p>
+</code></pre><p>In the above, we loop through each of the digits, compute the relevant distances, then the triplet objective and finally aggregate (sum) the losses for each digit.</p>
 <p>Now we define our model, optimiser and some hyper parameters.</p>
 <pre><code>input_dim = (1, 28, 28)
 batch_size = 100
@@ -270,7 +270,7 @@ def plot(fig, model, x, y):
         plt.scatter(*z[y==i].T, marker=&quot;.&quot;, alpha=0.5, edgecolors='none')
     plt.legend([str(i) for i in range(0,10)], loc=&quot;upper right&quot;)
     fig.canvas.draw()
-</code></pre><p>The above will plot the output of our network in 2D and assign different colours to each digit. The extra bits (<code>draw</code>, <code>clf</code>) ensure that the plot is efficiently updated in real time in a Jupyter notebook. Give it a quick test with <code>plot(model, x_test, y_test)</code> to get an plot similar to below.</p>
+</code></pre><p>The above will plot the output of our network in 2D and assign different colours to each digit. The extra bits (<code>draw</code>, <code>clf</code>) ensure that the plot is efficiently updated in real time in a Jupyter notebook. Give it a quick test with <code>plot(model, x_test, y_test)</code> to get a plot similar to below.</p>
 <figure>
     <img src="/images/siamese/initial.png" width="95%"/> 
 </figure>

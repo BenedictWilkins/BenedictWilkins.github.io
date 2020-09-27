@@ -18,7 +18,7 @@
       
       <guid>https://benedictwilkinsai.github.io/post/siamese-networks/</guid>
       <description>Recently I have been looking into Siamese networks in my research, for my own understanding I like to implement new models that I come across - if you can code it you must understand it! Lets begin.
-What is a Siamese Network? There are some great resources on the web that answer this question, in particular this short course by distinguished research Andrew Ng. For completeness I will explain the idea briefly here.</description>
+What is a Siamese Network? There are some great resources on the web that answer this question, in particular this short course by distinguished researcher Andrew Ng. For completeness I will explain the idea briefly here.</description>
     </item>
     
     <item>
@@ -28,15 +28,6 @@ What is a Siamese Network? There are some great resources on the web that answer
       
       <guid>https://benedictwilkinsai.github.io/post/tkinter-mp/</guid>
       <description>On occasion in my work I need a visualisation that gives a bit more than what pyplot can provide. tkinter was an obvious choice as a fairly powerful pure python GUI library it has (almost) everything one might need for simple interactive interfaces. As always, and with little to no understanding of the library I jumped straight in and tried to develop a super complicated GUI for a project I have been working on called vacuumworld.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://benedictwilkinsai.github.io/post/jupyter-cellfolding/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://benedictwilkinsai.github.io/post/jupyter-cellfolding/</guid>
-      <description></description>
     </item>
     
   </channel>
