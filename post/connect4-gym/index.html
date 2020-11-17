@@ -176,7 +176,7 @@ class Connect4(gym.Env):
  [ 0  1  1  0  0 -1 -1]] 
  
  [ 5  4  4  5  5  4  3]
-</code></pre><p>The <code>observation_space</code> defines what sort of state we are dealing with, it is generally used by people who want to make use of your environment so that they know what to expect. In this case, our <code>observation_space</code> is a <code>Box</code> space of size 7 $\times$ 7 where values are between -1 and 1. The reason I have chosen -1 and 1 will become clear in later posts (hint: we will be using neural networks).</p>
+</code></pre><p>The <code>observation_space</code> defines what sort of state we are dealing with, it is generally used by people who want to make use of your environment so that they know what to expect. In this case, our <code>observation_space</code> is a <code>Box</code> space of size 6 $\times$ 7 where values are between -1 and 1. The reason I have chosen -1 and 1 will become clear in later posts (hint: we will be using neural networks).</p>
 <p>Next, at each <code>step</code>, we should update the <code>state</code>.</p>
 <pre><code>def step(self, action):
     self.state[self.index[action], action] = self.turn
