@@ -228,7 +228,7 @@ class Connect4(gym.Env):
 h = self.state[i,:] == t
 v = self.state[:,j] == t
 lr = np.diag(self.state, k = j - i) == t
-rl = np.diag(np.fliplr(self.state), k = (self.n[1] - 1 - j) - i)
+rl = np.diag(np.fliplr(self.state), k = (self.n[1] - 1 - j) - i) == t
 </code></pre><p>The example below illustrates these operations, where player 2 has wont the game in the horizontal.</p>
 <pre><code>action = 3  # place in column 3
 turn = -1   # player 2's turn
