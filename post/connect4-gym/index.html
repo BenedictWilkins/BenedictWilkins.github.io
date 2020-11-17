@@ -132,7 +132,7 @@
 
 <hr>
 <h2 id="connect-4-basics">Connect 4 Basics</h2>
-<p>If you are unfamilar with connect 4, the rules are simple. Players take turns to place counters in the top of a rack, the counters slide to the bottom under gravity into the nearest empty position. The first to make 4 in a row along a row,column or diagonal wins. If the rack is filled without a win, it is a draw. The typical size of a rack is 7 $\times$ 7, this is the size we will be working with initially. In the game below, the yellow player has won the game.</p>
+<p>If you are unfamilar with connect 4, the rules are simple. Players take turns to place counters in the top of a rack, the counters slide to the bottom under gravity into the nearest empty position. The first to make 4 in a row along a row,column or diagonal wins. If the rack is filled without a win, it is a draw. The typical size of a rack is 6 $\times$ 7, this is the size we will be working with initially. In the game below, the yellow player has won the game.</p>
 <figure>
     <img src="/images/connect4/random.png" width="95%"/> 
 </figure>
@@ -158,25 +158,24 @@ class Connect4(gym.Env):
 <hr>
 <h3 id="state">State</h3>
 <p>The first step in creating the environment is defining what we mean by an environment <code>state</code>. Here a state is a particular configuration of counters. The state will be represented as a <code>numpy</code> array filled with 0s, 1s, and -1s, with 0 indicating an empty position, 1 indicating player 1&rsquo;s counter and -1 indicating players 2&rsquo;s counter.</p>
-<pre><code>def __init__(self, n=7):
-    super(Connect4, self).__init__()
-    self.n = 7
-    self.state = np.zeros((self.n, self.n), dtype=np.float32) # n x n grid
-    self.index = np.zeros(self.n, dtype=np.int8) + self.n - 1 # record of placement positions
-    self.turn = 1 # 1 or -1 depending on the turn
+<pre><code> def __init__(self, n=(6,7)):
+        super(Connect4, self).__init__()
+        self.n = n
+        self.state = np.zeros(n, dtype=np.float32) 
+        self.index = np.zeros(n[1], dtype=np.int8) + n[0] - 1 # record of placement positions
+        self.turn = 1 # 1 or -1 depending on the turn
 
-    self.observation_space = gym.spaces.Box(-1, 1,shape=self.state.shape, dtype=np.float32)
-    self.done = False
+        self.observation_space = gym.spaces.Box(-1,1,shape=self.state.shape, dtype=np.float32)
+
 </code></pre><p>The <code>state</code> is initially all 0s (no player has placed any counters yet). The <code>index</code> array keeps a record of the highest most counter in each column of the state, so that we know where to put the next counter in the column. For example:</p>
 <pre><code>[[ 0  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  0]
  [ 0  0  0  0  0  0  0]
  [ 0  0  0  0  0  0  0]
  [ 0  0  0  0  0  0  0]
  [ 0  0  0  0  0  0  1]
  [ 0  1  1  0  0 -1 -1]] 
  
- [ 6  5  5  6  6  5  4]
+ [ 5  4  4  5  5  4  3]
 </code></pre><p>The <code>observation_space</code> defines what sort of state we are dealing with, it is generally used by people who want to make use of your environment so that they know what to expect. In this case, our <code>observation_space</code> is a <code>Box</code> space of size 7 $\times$ 7 where values are between -1 and 1. The reason I have chosen -1 and 1 will become clear in later posts (hint: we will be using neural networks).</p>
 <p>Next, at each <code>step</code>, we should update the <code>state</code>.</p>
 <pre><code>def step(self, action):
@@ -192,7 +191,7 @@ class Connect4(gym.Env):
 <hr>
 <h3 id="action">Action</h3>
 <p>In addition to the <code>observation_space</code> we need to define an <code>action_space</code>, in the <code>__init__</code> method.</p>
-<pre><code>self.action_space = Connect4Discrete(self.n)
+<pre><code>self.action_space = Connect4Discrete(self.n[1])
 </code></pre><p>A player has the option of placing a counter in 1 of 7 columns, but what happens when a column is full? The action becomes illegal, we want this to be communicated some how by our action space. By default Gym doesn&rsquo;t provide this functionality, so we will create a new action space that is derived from Gym&rsquo;s <code>Discrete</code> action space.</p>
 <pre><code>class Connect4Discrete(gym.spaces.Discrete):
     
@@ -211,7 +210,6 @@ class Connect4(gym.Env):
         return state[0, action] == 0
 </code></pre><p>Our <code>action_space</code> defines a <code>mask</code> method, this method tells us which actions are valid for a particular state, see the example below.</p>
 <pre><code>[[ 0  0  0  0  0  1  0]
- [ 0  0  0  0  0  1  0]
  [ 0 -1  0  0  0 -1 -1]
  [ 0  1  0  0  1  1 -1]
  [ 1  1 -1  0 -1 -1  1]
@@ -230,13 +228,12 @@ class Connect4(gym.Env):
 h = self.state[i,:] == t
 v = self.state[:,j] == t
 lr = np.diag(self.state, k = j - i) == t
-rl = np.diag(np.fliplr(self.state), k = (self.n - 1 - j) - i)
+rl = np.diag(np.fliplr(self.state), k = (self.n[1] - 1 - j) - i)
 </code></pre><p>The example below illustrates these operations, where player 2 has wont the game in the horizontal.</p>
 <pre><code>action = 3  # place in column 3
 turn = -1   # player 2's turn
 state = 
     [[ 0  0  0  0  0  1  0]
-     [ 0  0  0  0  0  1  0]
      [ 0 -1  0  0  0 -1 -1]
      [ 0  1  0  0  1  1 -1]
      [ 1  1 -1 -1 -1 -1  1]
@@ -244,7 +241,7 @@ state =
      [-1 -1  1  1  1 -1  1]]
 
 h  = [ 0  0  1  1  1  1  0] 
-v  = [ 0  0  0  0  1  1  0]
+v  = [ 0  0  0  1  1  0]
 lr = [ 0  1  0  1  0  1]
 rl = [ 0  1  0  1  0  1]
 </code></pre><p>Now the question is, how do we extract the string of 4 1&rsquo;s to indicate a win? the following function does just this:</p>
