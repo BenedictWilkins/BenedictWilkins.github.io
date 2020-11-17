@@ -6,10 +6,28 @@
     <description>Recent content in Posts on Benedict Wilkins</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 26 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2020 11:24:47 +0000</lastBuildDate>
     
 	<atom:link href="https://benedictwilkinsai.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Connect4 Gym</title>
+      <link>https://benedictwilkinsai.github.io/post/connect4-gym/</link>
+      <pubDate>Tue, 17 Nov 2020 11:24:47 +0000</pubDate>
+      
+      <guid>https://benedictwilkinsai.github.io/post/connect4-gym/</guid>
+      <description>My goal is to completely solve the game of Connect4 (also sometimes called Four in a row). By completely, I mean completely. Essentially, I am going to go through all the steps in making a fully functional connect 4 robot that can play a physical game, and yes that includes building a robotic arm, a vision system, a learning algorithm that will enable our agent to learn to play from scratch, and everything else in between that is needed to tie it all together.</description>
+    </item>
+    
+    <item>
+      <title>Conway&#39;s Game of Life</title>
+      <link>https://benedictwilkinsai.github.io/post/gameoflife/</link>
+      <pubDate>Sun, 01 Nov 2020 11:09:09 +0000</pubDate>
+      
+      <guid>https://benedictwilkinsai.github.io/post/gameoflife/</guid>
+      <description>First in a series of mini-projects. The famous game of life originally conceived by the late John Conway is a fascinating example of a [Cellular Automaton][https://mathworld.wolfram.com/CellularAutomaton.html] (of which there are many). The game of life is often given as a homework task to undergraduate students in introductory programming courses &amp;ndash; if this is you I encourage you to look deeper into the motivation behind the conception of the game of life, or simply Life.</description>
+    </item>
     
     <item>
       <title>Siamese Networks</title>

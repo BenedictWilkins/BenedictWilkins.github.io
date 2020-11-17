@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+
+<html lang='en'>
+	<head>
+		<title>Conway&#39;s Game of Life &middot; Benedict Wilkins</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		
+		<!-- plugins -->
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/bootstrap/bootstrap.min.css">
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/Ionicons/css/ionicons.min.css">
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/magnific-popup/magnific-popup.css">
+		
+		<link rel="stylesheet" href="https://benedictwilkinsai.github.io/plugins/slick/slick.css">
+		
+
+		<link rel="stylesheet" href='/assets/css/main.css' />
+		
+		
+		<noscript><link rel="stylesheet" href='/assets/css/noscript.css' /></noscript>
+		
+	</head>
+
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ["\\[","\\]"]],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+	<body lang='en' class="is-preload">
+
+		
+			<div id="wrapper">
+
+                
+<header id="header">
+    <a href='/' class="logo">Benedict Wilkins</a>
+</header>
+
+                
+
+
+<nav id="nav">
+    <ul class="links">
+        
+
+    <li><a href=/>home</a></li>
+
+
+        
+
+    <li><a href=/mini-projects/>mini-projects</a></li>
+
+
+        
+
+    <li><a href=/about/>about</a></li>
+
+
+        
+
+        
+            <li><a href='#footer'>Contact</a></li>
+        
+    </ul>
+    
+    <ul class="icons">
+        
+        <li><a href="https://twitter.com/BenWilkinsAI" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+        
+        
+        
+        
+        <li><a href="https://www.linkedin.com/in/benedictwilkins" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+        
+        
+        <li><a href="https://github.com/BenedictWilkinsAI/" class="icon fa-github"><span class="label">GitHub</span></a></li>
+        
+        
+        <li><a href="https://www.youtube.com/channel/UCSYJwfY00hkrVOQBJJZK6fg" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
+        
+        
+        
+        
+    </ul>
+    
+</nav>
+
+
+				
+					<div id="main">
+
+						
+                        <section class="post">
+                            <header class="major">
+                                
+                                <span class="date">November 1, 2020</span>
+                                
+                                <h1>Conway&#39;s Game of Life</h1>
+                                <p></p>
+                            </header>
+                            
+                            <p>First in a series of mini-projects. The famous <em>game of life</em> originally conceived by the late <a href="https://en.wikipedia.org/wiki/John_Horton_Conway">John Conway</a> is a fascinating example of a [Cellular Automaton][https://mathworld.wolfram.com/CellularAutomaton.html] (of which there are many). The game of life is often given as a homework task to undergraduate students in introductory programming courses &ndash; if this is you I encourage you to look deeper into the <a href="http://www.scholarpedia.org/article/Game_of_Life">motivation</a> behind the conception of the game of life, or simply Life.</p>
+<h3 id="what-is-life">what is Life?</h3>
+<p>Life is played on an infinite grid of tiles, each cell can be in either an alive (on) or dead (off) state. The grid evolves over time according to some simple rules. The next state of each cell is determined by the states of its 8 immediate neighbours.</p>
+<p>The Rules:
+At the next time step,</p>
+<ol>
+<li>A live cell remains alive if it it has 2 or 3 live neighbours.</li>
+<li>A dead cell becomes alive if it has exactly 3 neighbours.</li>
+<li>All other cells die (or remain dead) otherwise.</li>
+</ol>
+<p>INSERT GIF?</p>
+<p>In this short post we will by coding up Life in Python, the result is extremely satisfying. As always, some dependencies are required - <code>numpy</code> and <a href="https://www.pygame.org/wiki/GettingStarted"><code>pygame</code></a>.</p>
+<p>There are many ways to code Life (some more efficient than others), my goal was to try to make a concise program that left the heavy lifting to <code>numpy</code>. To do this we need to <em>vectorise</em> the rules of Life. We assume that the Life grid is represented by a matrix of zeros and ones. zeros representing dead cells and ones representing live cells. The first step in this is to use <em>convolutions</em> to compute the number of neighbours efficiently. The following function lays the foundation for this operation.</p>
+<pre><code>def window(x, shape=(3,3)):
+    s = (x.shape[0] - shape[0] + 1,) + (x.shape[1] - shape[1] + 1,) + shape
+    strides = x.strides + x.strides
+    r = np.lib.stride_tricks.as_strided(x, shape=s, strides=strides, )
+    return r.reshape(r.shape[0] * r.shape[1], *r.shape[2:])
+</code></pre><p>This function creates a $(n-1)^2 \times 3 \times 3$ view of our $(n \times n)$ life grid. Each $3 \times 3$ component corresponds to the neighbourhood of a particular cell (with itself included in the middle). We can count the number of neighbours for the cell by performing a vector dot product with a kernel of all ones.</p>
+<p>$$\begin{bmatrix}
+1 &amp; 1 &amp; 1 \\<br>
+1 &amp; 1 &amp; 1 \\<br>
+1 &amp; 1 &amp; 1
+\end{bmatrix}$$</p>
+<pre><code>size = np.array(x)
+w = window(x)                    # ((n-1)^2, 3, 3)
+k = k.reshape(-1)                # (9, )
+w = w.reshape(w.shape[0], -1)    # ((n-1)^2, 9)
+r = np.dot(w, k).reshape(size-2) # (n-1, n-1)
+</code></pre><p><code>r</code> now contains the neighbour count for each cell (with the exception of the border cells, more on that later). Notice that for alive cells, the count is $1$ extra due to the central $1$ in our kernel. Now that we have the neighbour counts, what do we do?</p>
+<p>First some observations:</p>
+<ol>
+<li>For a dead cell to become alive, its <code>r</code> value should be exactly 3.</li>
+<li>For a live cell to remain alive, its <code>r</code> value should be 3 (2 neighbours + self) or 4 (3 neighbours + self).</li>
+<li>In all other cases, the cell should be dead.</li>
+</ol>
+<p>Lets refer to all cells that are to remain or become alive as <em>valid</em> cells. The next step is a bit nebulous, let&rsquo;s deconstruct what is happening after we look at the full formula.</p>
+<pre><code>r = np.abs((r - 3) * 2) - x) 
+</code></pre><p>First <code>(r - 3)</code> takes the <code>r</code> value of all soon to be reborn cells to <code>0</code> and takes the <code>r</code> value of all live cells to remain alive to <code>0</code> or <code>1</code>. We then use a simple arithmetic trick to transform the set $\{0,1\}$ to $\{-1,1\}$ namely $(y \times 2) - 1$. Notice that this only happens for the live cells (as $(0 \times 2) - 0 = 0$). After taking the absolute values, what has this bought us? Well, all of the valid dead cells now have the value <code>0</code> and all valid alive cells now have the value <code>1</code> - their original values! What about all of the other cells that are to die or remain dead? You can check for yourself that they will all have values different to their original values. To determine which cells are alive and which are dead in the next step, it is as simple as comparing this new <code>r</code> matrix with the current Life matrix step as below.</p>
+<pre><code>(r == x).astype(np.int8)
+</code></pre><p>Success! We have unloaded (most) of the computation to the super efficient C backend of numpy, there are no python loops or conditional statements in sight!</p>
+<p>Now, what about the edges of the Life grid? Our windowed view of <code>x</code> did not contain all of the neighbours of these cells. Remember that life is supposed to be played on an <em>infinite</em> grid, unfortunately our computers finite memory capacity will always be an issue and lead to degeneracy in the long term of a simulation. To keep things simple, I have opted to ignore the edges and always treat them as dead cells. There are more sophisticated solutions to the problem (all of which ultimately fail, but are interesting nonetheless). To briefly mention them, one possibility is to <em>wrap around</em> the edges using neighbours on the opposite side. Another is to dynamically extend the grid keeping by track of the alive cells.</p>
+<p>Enough on that, lets look next at visualising the result.
+Once installed, we use a simple pygame template to create a display.</p>
+<pre><code>import numpy as np
+import sys
+import pygame
+from pygame.locals import *
+
+class GameOfLife:
+
+    def __init__(self, grid, speed = 20, screen_dim = (1000, 1000),              colours =  np.array([[0, 0, 0], [120, 250, 90]])):
+
+        self.grid_dim = np.array(grid.shape)
+        self.screen_dim = np.array(screen_dim)
+        self.colours  = colours
+        self.speed = speed
+
+        self.x = grid
+        pygame.init()
+
+    def update(self, dt): # list for quit events
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit() 
+        
+    def draw(self, screen): # update the display
+        self.x = step(self.x) # compute next state
+        surface = pygame.surfarray.make_surface(self.colours[self.x])
+        surface = pygame.transform.scale(surface, self.screen_dim)
+        screen.blit(surface, (0,0))
+        pygame.display.flip()
+    
+    def run(self):
+        fpsClock = pygame.time.Clock()
+        width, height = self.screen_dim
+        screen = pygame.display.set_mode((width, height))
+        dt = self.speed
+        while True: 
+            self.update(dt)
+            self.draw(screen)
+            dt = fpsClock.tick(self.speed)
+</code></pre><p>Pygame will handle displaying and simulation of Life, now we just need to provide the above with a grid.</p>
+<pre><code># create a random grid
+grid_dim = np.array([100,100])
+x = np.zeros(grid_dim, dtype=np.int8)
+x[1:-1,1:-1] = np.random.randint(0, 2, size=grid_dim-2, dtype=np.int8) # random initial config
+
+GameOfLife(x).run()
+</code></pre>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/iWySyjYrhBg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<hr>
+<p>As always the full code can be found in the <a href="">git repository</a>.</p>
+<p>To be continued in <a href="https://github.com/BenedictWilkinsAI/gameoflife">PART 2</a>, with some extension to make more Life interactive.</p>
+
+
+                            
+                            
+                            
+                        </section>
+
+					</div>
+
+                    
+
+<footer id="footer">
+    
+    <section class="split contact">
+        
+        
+        
+        <section>
+            <h3>Email</h3>
+            <p><a href="mailto:benrjw@googlemail.com">benrjw@googlemail.com</a></p>
+        </section>
+        
+        
+        <section>
+            <h3>Social</h3>
+            <ul class="icons alt">
+                
+                <li><a href="https://twitter.com/BenWilkinsAI" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+                
+                
+                
+                
+                <li><a href="https://www.linkedin.com/in/benedictwilkins" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+                
+                
+                <li><a href="https://github.com/BenedictWilkinsAI/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+                
+                
+                <li><a href="https://www.youtube.com/channel/UCSYJwfY00hkrVOQBJJZK6fg" class="icon alt fa-youtube"><span class="label">Youtube</span></a></li>
+                
+                
+                
+                
+            </ul>
+        </section>
+        
+    </section>
+</footer>
+
+                    
+<div id="copyright">
+    <ul><li>&copy; Benedict Wilkins</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li><li>Hugo Port: <a href="https://curtistimson.co.uk">curttimson</a></li></ul>
+</div>
+
+
+            </div>
+            
+            
+<script src='/assets/js/jquery.min.js'></script>
+<script src='/assets/js/jquery.scrollex.min.js'></script>
+<script src='/assets/js/jquery.scrolly.min.js'></script>
+<script src='/assets/js/browser.min.js'></script>
+<script src='/assets/js/breakpoints.min.js'></script>
+<script src='/assets/js/util.js'></script>
+<script src='/assets/js/main.js'></script>
+
+	</body>
+</html>

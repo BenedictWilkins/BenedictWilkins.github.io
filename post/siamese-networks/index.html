@@ -29,7 +29,7 @@
   MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
+    displayMath: [['$$','$$'], ["\\[","\\]"]],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -258,7 +258,7 @@ x_test = torch.FloatTensor(x_test).to(device)
 model = CNet2(input_dim, latent_dim).to(device)
 
 optim = torch.optim.Adam(model.parameters(), lr=lr)
-</code></pre><p>If you have cuda enabled GPU things will be alot faster. Before starting the training, we want to be able to visualise the results. If we use a latent dimension of 2, we can visualise the output of the network easily in a plot. Lets implement that now.</p>
+</code></pre><p>If you have cuda enabled GPU things will be a lot faster. Before starting the training, we want to be able to visualise the results. If we use a latent dimension of 2, we can visualise the output of the network easily in a plot. Lets implement that now.</p>
 <pre><code>import matplotlib.pyplot as plt
 plt.rcParams['figure.figsize'] = [8,4.5] #set the figure size
 
