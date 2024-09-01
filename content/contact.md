@@ -1,28 +1,20 @@
 ---
-title: {{ replace .File.ContentBaseName "-" " " | title }}
-date:  {{ .Date }}
+title: Contact me
 # weight: 1
 # aliases: ["/first"]
 tags: []
 author: "Benedict Wilkins"
 showToc: false
 TocOpen: false
-draft: true
-hidemeta: false
-comments: false
+draft: false
+hidemeta: true
 description: ""
-canonicalURL: "https://canonical.url/to/page"
 disableHLJS: true # to disable highlightjs
-disableShare: false
+disableShare: true
 disableHLJS: false
-hideSummary: false
-searchHidden: true
-ShowReadingTime: true
-ShowBreadCrumbs: true
-ShowPostNavLinks: true
-ShowWordCount: true
-ShowRssButtonInSectionTermList: true
-UseHugoToc: true
+ShowReadingTime: false
+ShowBreadCrumbs: false
+UseHugoToc: false
 cover:
     image: "" # image path/url
     alt: "" # alt text
@@ -30,3 +22,7 @@ cover:
     relative: false # when using page bundles set this to true
     hidden: true # only hide on current single page
 ---
+
+{{< contact >}}
+
+

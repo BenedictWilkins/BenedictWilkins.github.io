@@ -1,12 +1,12 @@
-baseURL: "https://examplesite.com/"
-title: ExampleSite
+baseURL: "https://benedictwilkins.github.io/"
+title: Benedict's Blog
 paginate: 5
 theme: PaperMod
-
 
 # useful sites:
 # https://github.com/RoneoOrg/hugo-shortcode-roneo-collection
 # https://discourse.gohugo.io/t/code-tabs-widget/975
+# https://github.com/gj52/HugoSample/blob/master/themes/photon/layouts/shortcodes/footnoteset.html
 
 enableRobotsTXT: true
 buildDrafts: false
@@ -19,13 +19,12 @@ minify:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: ExampleSite
-  description: "ExampleSite description"
-  keywords: [Blog, Portfolio, PaperMod]
-  author: Me
+  title: Benedict's Blog
+  description: ""
+  keywords: [AI, Philosophy, Science, Technology, Tech, ]
+  author: Benedict
   # author: ["Me", "You"] # multiple authors
-  images: ["<link or path of image for opengraph, twitter-cards>"]
-  DateFormat: "January 2, 2006"
+  DateFormat: "1 January 2000"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
   ShareButtons: ["linkedin", "twitter", "reddit", "whatsapp"] # To customize which share buttons to be enabled on each page
@@ -54,29 +53,9 @@ params:
     apple_touch_icon: "<link / abs url>"
     safari_pinned_tab: "<link / abs url>"
 
-  label:
-    text: "Home"
-    icon: /apple-touch-icon.png
-    iconHeight: 35
-
-  # profile-mode
-  profileMode:
-    enabled: false # needs to be explicitly set
-    title: ExampleSite
-    subtitle: "This is subtitle"
-    imageUrl: "<img location>"
-    imageWidth: 120
-    imageHeight: 120
-    imageTitle: my image
-    buttons:
-      - name: Posts
-        url: posts
-      - name: Tags
-        url: tags
-
   # home-info mode
   profileMode:
-      enabled: true
+      enabled: false
       title: "Benedict Wilkins" # optional default will be site title
       imageUrl: "https://avatars.githubusercontent.com/u/22711383?v=4" # optional
       imageWidth: 120 # custom size
@@ -86,13 +65,19 @@ params:
           url: "/posts"
         - name: Info
           url: "/info"
+        - name: Contact
+          url: "/contact"
+
   socialIcons:
-    - name: x
-      url: "https://x.com/"
-    - name: stackoverflow
-      url: "https://stackoverflow.com"
     - name: github
-      url: "https://github.com/"
+      url: "https://github.com/BenedictWilkins"
+    - name: googlescholar
+      url: https://scholar.google.com/citations?user=0iQrUiAAAAAJ&hl=en
+    - name: stackoverflow
+      url: "https://stackoverflow.com/users/9704615/benedictwilkins"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/benedictwilkins"
+   
 
   analytics:
     google:
@@ -108,7 +93,7 @@ params:
     hiddenInSingle: true # hide on single page
 
   editPost:
-    URL: "https://github.com/<path_to_repo>/content"
+    URL: "https://github.com/BenedictWilkins/BenedictWilkins.github.io/tree/master/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 
@@ -123,12 +108,14 @@ params:
     minMatchCharLength: 0
     limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
     keys: ["title", "permalink", "summary", "content"]
+
 menu:
   main:
     - identifier: tags
       name: tags
       url: /tags/
       weight: 20
+
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
