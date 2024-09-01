@@ -1,0 +1,77 @@
+{{ $doi := .Get "doi" }}
+{{ $sanitizedDoi := replaceRE "[^a-zA-Z0-9]" "-" $doi }}
+
+<!-- layouts/shortcodes/card.html -->
+<style>
+    /* Card component styles from Bootstrap */
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+        padding-bottom: -1rem;
+        margin-bottom: 1.5rem;
+        /* Adds spacing between cards */
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .small-text {
+        font-size: 0.875rem;
+        color: #555;
+        padding-bottom: 0rem;
+    }
+</style>
+
+<div id='publication-{{ $sanitizedDoi }}' class='card'>
+    <div class='card-body'>
+        <a href='{{ .Get "pdf-link" }}' target='_blank' id='title-link-{{ $sanitizedDoi }}'>
+            <i class='fas fa-external-link-alt'></i>
+            <span id='title-text-{{ $sanitizedDoi }}'>Loading...</span>
+        </a>
+        <div id='publication-details-{{ $sanitizedDoi }}' class='small-text'>Fetching paper details...</div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const doi = '{{ .Get "doi" }}';
+        const sanitizedDoi = doi.replace(/[^a-zA-Z0-9]/g, '-');
+        const apiUrl = `https://api.crossref.org/works/${encodeURIComponent(doi)}`;
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const work = data.message;
+
+                const title = work.title && work.title.length > 0 ? work.title[0] : 'No title available';
+                const authors = work.author && work.author.length > 0 ? work.author.map(a => `${a.given} ${a.family}`).join(', ') : 'No authors available';
+                const year = work.created && work.created['date-parts'] && work.created['date-parts'][0] ?
+                    ` (${work.created['date-parts'][0][0]})` :
+                    '';
+                const venue = work['container-title'] && work['container-title'].length > 0 ? work['container-title'][0] : 'Unknown Venue';
+
+                const card = document.getElementById(`publication-${sanitizedDoi}`);
+                card.querySelector(`#title-text-${sanitizedDoi}`).textContent = title + year;
+                card.querySelector(`#publication-details-${sanitizedDoi}`).innerHTML = `
+                    <strong>Authors:</strong> ${authors} <br> <strong>Venue:</strong> ${venue}`;
+            })
+            .catch(error => {
+                const card = document.getElementById(`publication-${sanitizedDoi}`);
+                card.querySelector(`#title-text-${sanitizedDoi}`).textContent = 'Error loading publication data';
+                card.querySelector(`#publication-details-${sanitizedDoi}`).textContent = 'Could not fetch data from CrossRef.';
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    })();
+</script>
