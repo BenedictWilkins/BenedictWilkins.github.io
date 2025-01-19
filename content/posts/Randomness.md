@@ -1,6 +1,6 @@
 ---
-title: Actions & Effects
-tags: [Action, AI, Philosophy, Causality]
+title: "Randomness: what is it?"
+tags: [Mathematics, Computer Science, Philosophy]
 author: "Benedict Wilkins"
 draft: true
 cover:
@@ -8,3 +8,5 @@ cover:
     alt: "" # alt text
     caption: "" # display caption under cover
 ---
+
+Randomness has been in the back of my mind for 
